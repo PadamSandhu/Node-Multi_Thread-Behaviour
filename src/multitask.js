@@ -1,3 +1,6 @@
+// process.env.UV_THREADPOOL_SIZE = 4;
+// Play around with threadpool for better understanding
+
 const https = require("https");
 const crypto = require('crypto');
 const fs = require('fs');
@@ -46,10 +49,27 @@ doHash();
 Answer:
 
 Sent Request 861
-Hash: 1918FS 1919
+Hash: 1918
+FS 1919
 Hash: 1920
 Hash: 1929
 Hash: 1931
+
+
+Additional Questions ?
+
+Why is it taking 2 seconds for our computer to read file almost 2 seconds ?
+
+    Note: Without hash functions it's taking the following times:
+            FS 21
+            Sent Request 201
+
+Why Http Request complete first ?
+    Note: Http and FS are both Async calls
+Why HTTP request always finish first ?
+
+Why FS always finishes after first Hash ?
+
 
 |--------------------------------------------------
 */
