@@ -1,3 +1,4 @@
+process.env.UV_THREADPOOL_SIZE = 1;
 const cluster = require('cluster');
 
 // Cluster.isMaster is true for Cluster manager but false for
@@ -7,6 +8,7 @@ const cluster = require('cluster');
 if (cluster.isMaster) {
     // Cause index.js to be executed *again* but
     // in child mode
+    // By default the thread pool size is 4
     cluster.fork();   // new child instance is started
     // Every time when when we call cluster.fork()
     // cluster.isMaster will be set to false
@@ -24,22 +26,15 @@ if (cluster.isMaster) {
     // Express Server !!
     const express = require('express');
     const app = express();
+    const crypto = require('crypto');
     const portNo = 4000;
 
-    // The purpose of this function is to use as much CPU
-    // power as possible for set amount of duration.
-    function doWork(duration) {
-        const start = Date.now();
-        while ((Date.now() - start) < duration) {
 
-        }
-    };
 
     app.get('/', (rq, res) => {
-        doWork(5000); // Do work for 5000 MS
-        // Note for these 5 sec our event loop can't do
-        // anything else !!
+      crypto.pbkdf2('a','b', 100000, 512 ,'sha512', () => {
         res.send('Hi  there ')
+        });
     });
 
     app.get('/fast',(req,res)=> {
